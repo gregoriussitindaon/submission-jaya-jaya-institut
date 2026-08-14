@@ -62,7 +62,10 @@ st.markdown(
     """
 Aplikasi ini membantu staf akademik memperkirakan **risiko dropout** seorang mahasiswa berdasarkan
 data demografis, sosial-ekonomi, admisi, dan performa akademik semester 1 & 2, menggunakan model
-**Logistic Regression** yang telah dilatih pada data historis mahasiswa Jaya Jaya Institut.
+**Logistic Regression** yang telah dilatih **khusus pada mahasiswa dengan outcome akhir yang sudah pasti**
+(`Dropout` = 1, `Graduate` = 0). Mahasiswa berstatus `Enrolled` tidak digunakan untuk melatih model — karena
+belum memiliki outcome akhir — namun justru merupakan **target penggunaan utama aplikasi ini**: memprediksi
+risiko dropout mahasiswa yang saat ini masih aktif berkuliah.
 
 Isi form di bawah sesuai data mahasiswa, lalu klik **Prediksi Risiko Dropout**.
 """
@@ -217,9 +220,9 @@ if submitted:
         col_result, col_gauge = st.columns([1, 1])
         with col_result:
             if prediction == 1:
-                st.error(f"### ⚠️ Risiko Dropout: TINGGI")
+                st.error("### ⚠️ Berisiko Dropout")
             else:
-                st.success(f"### ✅ Risiko Dropout: RENDAH")
+                st.success("### ✅ Tidak Terindikasi Dropout (Diprediksi Graduate)")
             st.metric("Probabilitas Risiko Dropout", f"{proba_dropout*100:.1f}%")
 
         with col_gauge:
@@ -238,7 +241,8 @@ if submitted:
         st.info(
             "ℹ️ **Interpretasi:** performa akademik (jumlah mata kuliah yang disetujui/lulus) dan kondisi finansial "
             "(status pembayaran tuition, status tunggakan) merupakan faktor yang paling berkaitan dengan risiko dropout "
-            "berdasarkan analisis model. Nilai probabilitas di atas dihitung langsung oleh model dan bukan estimasi manual."
+            "berdasarkan analisis model. Nilai probabilitas di atas dihitung langsung oleh model (dilatih pada outcome "
+            "Dropout vs Graduate) dan bukan estimasi manual."
         )
 
         st.warning(
@@ -250,6 +254,7 @@ if submitted:
 
 st.divider()
 st.caption(
-    "Model: Logistic Regression (class_weight='balanced') · Dilatih pada data historis mahasiswa Jaya Jaya Institut "
-    "(dataset resmi Dicoding: students_performance) · Prototype ini dibuat untuk keperluan proyek akhir Dicoding."
+    "Model: Logistic Regression (class_weight='balanced') · Dilatih hanya pada mahasiswa dengan outcome akhir pasti "
+    "(Dropout=1, Graduate=0) dari dataset resmi Dicoding: students_performance · Mahasiswa Enrolled tidak digunakan "
+    "untuk training dan menjadi target penggunaan aplikasi ini · Prototype ini dibuat untuk keperluan proyek akhir Dicoding."
 )

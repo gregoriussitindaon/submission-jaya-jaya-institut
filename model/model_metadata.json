@@ -37,14 +37,18 @@
     "Inflation_rate",
     "GDP"
   ],
-  "target": "Dropout (1) vs Non-Dropout (0)",
+  "target": "Dropout (1) vs Graduate (0) -- Enrolled dikeluarkan dari training",
   "threshold": 0.5,
   "model_type": "LogisticRegression (class_weight=balanced) dalam Pipeline StandardScaler",
+  "training_scope": "Hanya mahasiswa berstatus Dropout dan Graduate (outcome final). Enrolled dipisahkan untuk inference.",
+  "n_dropout": 1421,
+  "n_graduate": 2209,
+  "n_enrolled_excluded": 794,
   "test_metrics": {
-    "accuracy": 0.8734463276836159,
-    "precision_dropout": 0.7866666666666666,
-    "recall_dropout": 0.8309859154929577,
-    "f1_dropout": 0.8082191780821918,
-    "roc_auc": 0.9271753650019919
+    "accuracy": 0.9256198347107438,
+    "precision_dropout": 0.8807947019867549,
+    "recall_dropout": 0.9366197183098591,
+    "f1_dropout": 0.9078498293515358,
+    "roc_auc": 0.9732569625900196
   }
 }
